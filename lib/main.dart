@@ -3,7 +3,7 @@ import 'package:expenses/add_expenses.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -80,7 +80,50 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-             
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: SizedBox(
+                  height: 200,
+                  width: double.infinity,
+                  child: Card(
+                    color: Colors.greenAccent,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20,top: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text('Fi',style: TextStyle(fontSize: 30,color: Colors.grey,fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.local_atm,color: Colors.grey,size: 30,),
+                              SizedBox(width: 10,),
+                              Icon(Icons.wifi,color: Colors.grey,size: 30,)
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20,bottom: 10,right: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Dinesh saran',style: TextStyle(fontSize: 20,color: Colors.white),),
+                              Text('VISA',style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold),)
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )),
+            ),
             Padding(
               padding: const EdgeInsets.all(15),
               child: Row(
@@ -105,40 +148,42 @@ class _MyHomePageState extends State<MyHomePage> {
                   stream: user.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                    if(streamSnapshot.hasData)
-                    return ListView.builder(
-                        itemCount: streamSnapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          final DocumentSnapshot documentSnapshot =
-                          streamSnapshot.data!.docs[index];
-                      return Card(
-                        child: ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(left: 20,top: 10),
-                            child: Column(
-                              children: [
-                                Text(documentSnapshot['Date']),
-                                Text ( documentSnapshot['Time']),
-                              ],
-                            ),
-                          ),
-                          title:Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text(documentSnapshot["Amount"],),
-                          ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Text(documentSnapshot['Category']),
-                          ),
-                          trailing: Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text(documentSnapshot["Status"]),
-                          ),
-
-                        ),
-                      );
-                    });
-                    else{
+                    if (streamSnapshot.hasData)
+                      return ListView.builder(
+                          itemCount: streamSnapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            final DocumentSnapshot documentSnapshot =
+                                streamSnapshot.data!.docs[index];
+                            return Card(
+                              child: ListTile(
+                                leading: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 20, top: 10),
+                                  child: Column(
+                                    children: [
+                                      Text(documentSnapshot['Date']),
+                                      Text(documentSnapshot['Time']),
+                                    ],
+                                  ),
+                                ),
+                                title: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    documentSnapshot["Amount"],
+                                  ),
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(left: 20),
+                                  child: Text(documentSnapshot['Category']),
+                                ),
+                                trailing: Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: Text(documentSnapshot["Status"]),
+                                ),
+                              ),
+                            );
+                          });
+                    else {
                       return Center(child: CircularProgressIndicator());
                     }
                   }),
